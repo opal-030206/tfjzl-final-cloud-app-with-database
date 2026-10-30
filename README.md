@@ -11,7 +11,8 @@ receive an immediate score with a congratulations message.
 - **Assessment (mock exam)** — each lesson can hold questions; every question has choices, one of
   which is correct. Students answer with radio buttons and submit the exam.
 - **Automatic grading** — the `submit` view stores a `Submission`, the `show_exam_result` view
-  calculates the score, shows a *Congratulations* message on success and lists the exam results.
+  calculates the score, shows a *Congratulations* message on a passing attempt (70% or more) and
+  lists the exam results.
 - **Django Admin** — `QuestionInline` inside `LessonAdmin` and `ChoiceInline` inside
   `QuestionAdmin` so questions and choices can be managed inline.
 
