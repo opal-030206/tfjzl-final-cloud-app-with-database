@@ -8,15 +8,15 @@
 
 <div class="row">
     <div class="col-md-12">
-        {% if score >= 70 %}
+        {% if grade >= 70 %}
         <div class="alert alert-success" id="congratulations">
             <h4 class="alert-heading">Congratulations! You passed the mock exam.</h4>
-            <p>You answered {{ correct_answers }} out of {{ total_questions }} questions correctly.</p>
+            <p>You scored {{ grade }}/{{ total_grade }} points ({{ score }}%).</p>
         </div>
         {% else %}
         <div class="alert alert-danger" id="failed">
             <h4 class="alert-heading">Sorry! You did not pass the mock exam.</h4>
-            <p>You answered {{ correct_answers }} out of {{ total_questions }} questions correctly.</p>
+            <p>You scored {{ grade }}/{{ total_grade }} points ({{ score }}%).</p>
         </div>
         {% endif %}
     </div>
@@ -26,12 +26,12 @@
     <div class="col-md-12">
         <div class="card mb-4">
             <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">Your Score: {{ score }}%</h4>
+                <h4 class="mb-0">Your Score: {{ grade }}/{{ total_grade }} ({{ score }}%)</h4>
             </div>
             <div class="card-body">
-                <p class="mb-0">Total questions: {{ total_questions }} |
-                   Correct answers: {{ correct_answers }} |
-                   Submission time: {{ submission.submit_time }}</p>
+                <p class="mb-0">Course: {{ course.name }} |
+                   Submission ID: {{ submission.id }} |
+                   Total questions: {{ question_list|length }}</p>
             </div>
         </div>
     </div>
@@ -40,26 +40,22 @@
 <div class="row">
     <div class="col-md-12">
         <h2 class="text-secondary">Exam Results</h2>
-        {% for question in question_list %}
+        {% for question in course.question_set.all %}
         <div class="card mb-3">
             <div class="card-header bg-light">
-                <strong>Question {{ forloop.counter }}:</strong> {{ question.question_text }}
+                <strong>Question {{ forloop.counter }}:</strong> {{ question.content }}
             </div>
             <div class="card-body">
-                {% for choice in question.get_choices %}
-                {% if choice in choices %}
-                    {% if choice.is_correct %}
-                    <p class="text-success mb-1">&#10004; {{ choice.choice_text }} (Your answer - Correct)</p>
+                {% for choice in question.choice_set.all %}
+                    {% if choice.is_correct and choice in choices %}
+                    <p class="text-success mb-1">&#10004; {{ choice.content }} (Your answer - Correct)</p>
+                    {% elif choice.is_correct and not choice in choices %}
+                    <p class="text-warning mb-1">&#10004; {{ choice.content }} (Correct answer - Not selected)</p>
+                    {% elif not choice.is_correct and choice in choices %}
+                    <p class="text-danger mb-1">&#10008; {{ choice.content }} (Your answer - Incorrect)</p>
                     {% else %}
-                    <p class="text-danger mb-1">&#10008; {{ choice.choice_text }} (Your answer - Incorrect)</p>
+                    <p class="text-muted mb-1">{{ choice.content }}</p>
                     {% endif %}
-                {% else %}
-                    {% if choice.is_correct %}
-                    <p class="text-success mb-1">&#10004; {{ choice.choice_text }} (Correct answer)</p>
-                    {% else %}
-                    <p class="text-muted mb-1">{{ choice.choice_text }}</p>
-                    {% endif %}
-                {% endif %}
                 {% endfor %}
             </div>
         </div>

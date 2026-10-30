@@ -4,37 +4,40 @@ from .models import Course, Lesson, Instructor, Learner, Question, Choice, Submi
 
 class QuestionInline(admin.StackedInline):
     model = Question
-    extra = 5
+    extra = 2
 
 
 class ChoiceInline(admin.StackedInline):
     model = Choice
-    extra = 5
+    extra = 3
+
+
+class LessonInline(admin.StackedInline):
+    model = Lesson
+    extra = 2
 
 
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('question_text', 'lesson', 'get_correct_choice')
-    list_filter = ['lesson']
-    search_fields = ['question_text']
     inlines = [ChoiceInline]
-
-    def get_correct_choice(self, obj):
-        correct = obj.get_choices().filter(is_correct=True)
-        if correct:
-            return correct[0].choice_text
-        return "No correct choice defined"
-
-    get_correct_choice.short_description = 'Correct choice'
+    list_display = ('content', 'course', 'grade')
+    list_filter = ['course']
+    search_fields = ['content']
 
 
 class LessonAdmin(admin.ModelAdmin):
-    list_display = ('title', 'course', 'content')
+    list_display = ('title', 'course', 'order')
     list_filter = ['course']
     search_fields = ['title', 'content']
-    inlines = [QuestionInline]
 
 
-admin.site.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    inlines = [LessonInline]
+    list_display = ('name', 'pub_date', 'total_enrollment')
+    list_filter = ['pub_date']
+    search_fields = ['name', 'description']
+
+
+admin.site.register(Course, CourseAdmin)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Instructor)
 admin.site.register(Learner)
