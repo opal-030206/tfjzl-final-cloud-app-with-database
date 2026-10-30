@@ -11,7 +11,7 @@
     <div class="col-md-12">
         <h2 class="text-secondary">Lessons</h2>
         <div class="list-group mb-4">
-            {% for lesson in lesson_list %}
+            {% for lesson in course.lesson_set.all %}
             <div class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{ forloop.counter }}. {{ lesson.title }}</h5>

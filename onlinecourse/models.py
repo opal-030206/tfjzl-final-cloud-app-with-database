@@ -3,6 +3,40 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 
+class Instructor(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    full_time = models.BooleanField(default=True)
+    total_learners = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.user.username
+
+
+class Learner(models.Model):
+    STUDENT = 'student'
+    DEVELOPER = 'developer'
+    DATA_SCIENTIST = 'data_scientist'
+    DATABASE_ADMIN = 'dba'
+    OCCUPATION_CHOICES = [
+        (STUDENT, 'Student'),
+        (DEVELOPER, 'Developer'),
+        (DATA_SCIENTIST, 'Data Scientist'),
+        (DATABASE_ADMIN, 'Database Admin'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    occupation = models.CharField(
+        null=False,
+        max_length=20,
+        choices=OCCUPATION_CHOICES,
+        default=STUDENT,
+    )
+    social_link = models.URLField(max_length=200, blank=True)
+
+    def __str__(self):
+        return self.user.username + ", " + self.occupation
+
+
 class Course(models.Model):
     name = models.CharField(null=False, max_length=30, default='online course')
     description = models.CharField(null=False, max_length=255, default='online course description')

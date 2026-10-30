@@ -19,12 +19,18 @@ receive an immediate score with a congratulations message.
 
 | Model | Purpose |
 |-------|---------|
+| `Instructor` | instructor profile linked to a Django user |
+| `Learner` | learner profile linked to a Django user |
 | `Course` | name + description |
 | `Lesson` | title + content, belongs to a course |
 | `Enrollment` | links a user to a course |
 | `Question` | question text, belongs to a lesson |
 | `Choice` | choice text + `is_correct` flag, belongs to a question |
 | `Submission` | a student's exam attempt; many-to-many with `Choice`, computes the score |
+
+`admin.py` imports the seven assessment-related model classes
+(`Course, Lesson, Instructor, Learner, Question, Choice, Submission`) and
+registers `QuestionInline`, `ChoiceInline`, `QuestionAdmin` and `LessonAdmin`.
 
 ## Run the project
 
