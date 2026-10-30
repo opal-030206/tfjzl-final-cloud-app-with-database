@@ -72,9 +72,17 @@ Admin site: http://127.0.0.1:8000/admin/
 
 ## Screenshots
 
+- [`screenshots/01-models.png`](screenshots/01-models.png) — `Question`, `Choice` and `Submission` models.
+- [`screenshots/02-admin-file.png`](screenshots/02-admin-file.png) — `onlinecourse/admin.py` with the seven
+  model imports and the inline/admin classes.
 - [`screenshots/03-admin-site.png`](screenshots/03-admin-site.png) — Django admin site showing the
   **Authentication and Authorization** section and the **OnlineCourse** section with Choices,
   Courses, Instructors, Learners, Lessons, Questions and Submissions.
+- [`screenshots/04-course-details.png`](screenshots/04-course-details.png) —
+  `course_details_bootstrap.html` with the course name, lessons and exam form.
+- [`screenshots/05-views.png`](screenshots/05-views.png) — `views.py` including `submit` and
+  `show_exam_result`.
+- [`screenshots/06-urls.png`](screenshots/06-urls.png) — `urls.py` with the submit and result paths.
 - [`screenshots/07-final.png`](screenshots/07-final.png) — Mock exam result with the
   *Congratulations* message, 100/100 score and exam results.
 
